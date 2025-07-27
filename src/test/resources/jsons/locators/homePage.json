@@ -1,0 +1,20 @@
+[
+  {
+    "key": "btn_accept_all_cookie",
+    "type": "ID",
+    "value": "wt-cli-accept-all-btn"
+  },
+  {
+    "key": "announce_bar",
+    "type": "ID",
+    "value": "announce"
+  },
+  {
+    "key": "slideBar_logo",
+    "type": "ID",
+    "value": "home_logo_reel"
+  }
+
+
+
+]

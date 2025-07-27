@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite" verbose="1" parallel="false">
+
+    <!-- Testler TC001 için -->
+    <test name="TC001 Tests">
+        <parameter name="baseUrl" value="https://useinsider.com/"/>
+        <classes>
+            <class name="Test_Senarios.TC001"/>
+        </classes>
+    </test>
+
+    <!-- Testler TC002 için -->
+    <test name="TC002 Tests">
+        <parameter name="baseUrl" value="https://useinsider.com/careers/quality-assurance/"/>
+        <classes>
+            <class name="Test_Senarios.TC002"/>
+        </classes>
+    </test>
+
+</suite>
