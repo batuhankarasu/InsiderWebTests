@@ -30,6 +30,7 @@ public class TC001 extends Driver {
         careerPage.clickSeeAllTeamsBtn();
         careerPage.clickQATeamSellection();
 
+        qaPage.verifyQaAssurengePage();
         qaPage.clickSeeAlQaJobsBtn();
 
     }

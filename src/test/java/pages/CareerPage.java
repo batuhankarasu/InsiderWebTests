@@ -3,7 +3,6 @@ package pages;
 import base.BaseMethods;
 import jdk.jfr.Description;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -21,9 +20,13 @@ public class CareerPage extends BaseMethods {
     @Description("Verified that the 'Our Locations' section is present on the Careers page.")
     public void verifyLocationsInCareers(){
         try {
-            waitElementPresent("conteiner_locetion");
-            waitElementVisible("conteiner_locetion");
-            By locetionsBy = elementHelper.getElementInfoToBy("title_locations");
+            String key = "conteiner_locetion";
+            String titleKey = "title_locations";
+
+            waitElementPresent(key);
+            waitElementVisible(key);
+
+            By locetionsBy = elementHelper.getElementInfoToBy(titleKey);
             WebElement locetions = driver.findElement(locetionsBy);
             Assert.assertEquals(locetions.getText(), "Our Locations",
                     "Expected: 'Our Locations' but actual: '" + locetions.getText() + "' text is incorrect");
@@ -38,9 +41,13 @@ public class CareerPage extends BaseMethods {
     @Description("Verified that the 'Find your calling' section is present on the Careers page.")
     public void verifyTeamsnCareers(){
         try {
-            waitElementPresent("conteiner_teams");
-            waitElementVisible("conteiner_teams");
-            By locetionsBy = elementHelper.getElementInfoToBy("title_teams");
+            String key = "conteiner_teams";
+            String titleKey = "title_teams";
+
+            waitElementPresent(key);
+            waitElementVisible(key);
+
+            By locetionsBy = elementHelper.getElementInfoToBy(titleKey);
             WebElement locetions = driver.findElement(locetionsBy);
             Assert.assertEquals(locetions.getText(), "Find your calling",
                     "Expected: 'Find your calling' but actual: '" + locetions.getText() + "' text is incorrect");
@@ -55,9 +62,13 @@ public class CareerPage extends BaseMethods {
     @Description("Verified that the 'Life at Insider' section is present on the Careers page.")
     public void verifyLifeAtInsider(){
         try {
-            waitElementPresent("swiper_lifeAtInsider");
-            waitElementVisible("swiper_lifeAtInsider");
-            By locetionsBy = elementHelper.getElementInfoToBy("title_lifeAtInsider");
+            String key = "swiper_lifeAtInsider";
+            String titleKey = "title_lifeAtInsider";
+
+            waitElementPresent(key);
+            waitElementVisible(key);
+
+            By locetionsBy = elementHelper.getElementInfoToBy(titleKey);
             WebElement locetions = driver.findElement(locetionsBy);
             Assert.assertEquals(locetions.getText(), "Life at Insider",
                     "Expected: 'Life at Insider' but actual: '" + locetions.getText() + "' text is incorrect");
@@ -81,7 +92,7 @@ public class CareerPage extends BaseMethods {
         }
     }
 
-    @Description("Clicks the Quality Assurance team selection button on the teams page.")
+    @Description("Clicks the Quality Assurance team selection button on the Careers page.")
     public void clickQATeamSellection(){
         try {
             performClickWithRetry("btn_team_quality_assurance",5);

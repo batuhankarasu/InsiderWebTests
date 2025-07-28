@@ -50,9 +50,10 @@ public class HomePage extends BaseMethods {
     @Description("Checks that the Company dropdown is visible and hovers over it.")
     public void hoverCompanyDropdown(){
         try {
-            waitElementPresent("dropdown_company");
-            waitElementVisible("dropdown_company");
-            hoverElement("dropdown_company");
+            String key = "dropdown_company";
+            waitElementPresent(key);
+            waitElementVisible(key);
+            hoverElement(key);
             log.info("Hover performed key: dropdown_company");
 
         } catch (Exception e) {

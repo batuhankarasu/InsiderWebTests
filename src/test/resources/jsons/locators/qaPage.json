@@ -3,5 +3,10 @@
     "key": "btn_see_all_qa_jobs",
     "type": "CSS",
     "value": "section#page-head a.btn.btn-outline-secondary"
+  },
+  {
+    "key": "title_qa_assurance",
+    "type": "CSS",
+    "value": "section#page-head h1.big-title"
   }
 ]
