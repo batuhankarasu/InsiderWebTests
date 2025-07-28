@@ -1,0 +1,7 @@
+[
+  {
+    "key": "btn_see_all_qa_jobs",
+    "type": "CSS",
+    "value": "section#page-head a.btn.btn-outline-secondary"
+  }
+]

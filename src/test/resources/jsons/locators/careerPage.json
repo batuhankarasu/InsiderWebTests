@@ -1,0 +1,42 @@
+[
+  {
+    "key": "conteiner_locetion",
+    "type": "ID",
+    "value": "career-our-location"
+  },
+  {
+    "key": "conteiner_teams",
+    "type": "ID",
+    "value": "career-find-our-calling"
+  },
+  {
+    "key": "title_locations",
+    "type": "CSS",
+    "value": "h3[class='category-title-media ml-0']"
+  },
+  {
+    "key": "title_teams",
+    "type": "CSS",
+    "value": "h3[class='category-title-media']"
+  },
+  {
+    "key": "swiper_lifeAtInsider",
+    "type": "CSS",
+    "value": "div[class = 'swiper-wrapper']"
+  },
+  {
+    "key": "title_lifeAtInsider",
+    "type": "XPATH",
+    "value": "//h2[contains(text(),'Life at Insider')]"
+  },
+  {
+    "key": "btn_see_all_teams",
+    "type": "CSS",
+    "value": "a.btn.loadmore"
+  },
+  {
+    "key": "btn_team_quality_assurance",
+    "type": "XPATH",
+    "value": "//h3[normalize-space(text())='Quality Assurance']"
+  }
+]

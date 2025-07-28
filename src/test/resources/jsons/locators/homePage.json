@@ -13,8 +13,15 @@
     "key": "slideBar_logo",
     "type": "ID",
     "value": "home_logo_reel"
+  },
+  {
+    "key": "dropdown_company",
+    "type": "XPATH",
+    "value": "//a[@id='navbarDropdownMenuLink' and normalize-space()='Company']"
+  },
+  {
+    "key": "btn_careers_link",
+    "type": "XPATH",
+    "value": "//a[text()='Careers']"
   }
-
-
-
 ]

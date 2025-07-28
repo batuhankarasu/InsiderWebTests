@@ -19,7 +19,7 @@ import java.time.Duration;
 
 public class BaseMethods {
 
-    ElementHelper elementHelper;
+    protected ElementHelper elementHelper;
 
     public WebDriver driver;
     private static final Logger logger = LogManager.getLogger(BaseMethods.class);
@@ -80,7 +80,7 @@ public class BaseMethods {
         }
     }
 
-    @Description("Scrolls to the element specified by the locator key and waits until it is visible and clickable.")
+    @Description("Scrolls to the element and waits for scroll animation to complete")
     public void scrollElement(String key) {
         try {
             By locator = elementHelper.getElementInfoToBy(key);
@@ -88,15 +88,70 @@ public class BaseMethods {
             WebElement webElement = driver.findElement(locator);
 
             JavascriptExecutor je = (JavascriptExecutor) driver;
-            je.executeScript("arguments[0].scrollIntoView(true);", webElement);
 
+            // Scroll öncesi pozisyon
+            Long scrollPositionBefore = (Long) je.executeScript("return window.pageYOffset;");
+
+            // Scroll işlemi
+            je.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center', behavior: 'smooth'});", webElement);
+
+            // Scroll animasyonunun bitmesini bekle
+            wait.until(driver -> {
+                Long currentPosition = (Long) je.executeScript("return window.pageYOffset;");
+                try {
+                    Thread.sleep(1000); // Kısa bekleme
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                Long newPosition = (Long) je.executeScript("return window.pageYOffset;");
+                return currentPosition.equals(newPosition); // Pozisyon sabitlendi mi?
+            });
+
+            // Element kontrolları
             wait.until(ExpectedConditions.visibilityOf(webElement));
             wait.until(ExpectedConditions.elementToBeClickable(webElement));
-            logger.info("Scrolls to the element succes key : " + key);
+
+            logger.info("Scrolls to the element with animation success key : " + key);
         } catch (Exception e) {
-            Assert.fail("Error while scrolling to element: " + key+ " ERROR : " +e );
+            Assert.fail("Error while scrolling to element: " + key + " ERROR : " + e);
         }
     }
 
+    @Description("Performs click action with retry mechanism and JavaScript fallback.")
+    public void performClickWithRetry(String elementKey,int maxRetries) throws InterruptedException {
+        for (int i = 0; i < maxRetries; i++) {
+            try {
+                waitElementPresent(elementKey);
+                scrollElement(elementKey);
+                Thread.sleep(500);
+                waitElementVisible(elementKey);
+                waitElementClickable(elementKey);
 
+                performClickAction(elementKey);
+
+                logger.info("Click performed successfully on attempt: " + (i + 1));
+                return;
+
+            } catch (Exception e) {
+                if (i == maxRetries - 1) {
+
+                    WebElement element = driver.findElement(elementHelper.getElementInfoToBy(elementKey));
+                    JavascriptExecutor je = (JavascriptExecutor) driver;
+                    je.executeScript("arguments[0].click();", element);
+                    logger.info("Click performed with JavaScript after retries");
+                    return;
+
+                } else {
+                    Thread.sleep(1000);
+                }
+            }
+        }
+    }
+
+    @Description("Performs the actual click action.")
+    private void performClickAction(String elementKey){
+        By elementBy = elementHelper.getElementInfoToBy(elementKey);
+        WebElement element = driver.findElement(elementBy);
+        element.click();
+    }
 }

@@ -25,6 +25,8 @@ public class ElementHelper {
             // Örnek: resources/locators klasöründeki JSON dosyalarını tek tek belirt
             String[] jsonFiles = {
                     "jsons/locators/homePage.json",
+                    "jsons/locators/careerPage.json",
+                    "jsons/locators/qaPage.json"
             };
 
             Type elementType = new TypeToken<List<ElementInfo>>() {}.getType();
