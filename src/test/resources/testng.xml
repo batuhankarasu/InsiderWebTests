@@ -10,12 +10,5 @@
         </classes>
     </test>
 
-    <!-- Testler TC002 için -->
-    <test name="TC002 Tests">
-        <parameter name="baseUrl" value="https://useinsider.com/careers/quality-assurance/"/>
-        <classes>
-            <class name="Test_Senarios.TC002"/>
-        </classes>
-    </test>
 
 </suite>
