@@ -32,7 +32,7 @@ public class QaPage extends BaseMethods {
             String key = "title_qa_assurance";
 
             waitElementPresent(key);
-            waitElementVisible(key);
+            waitKeyElementVisible(key);
 
             By locetionsBy = elementHelper.getElementInfoToBy(key);
             WebElement locetions = driver.findElement(locetionsBy);

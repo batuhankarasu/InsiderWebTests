@@ -1,18 +1,11 @@
 package pages;
 
-import Element_Helper.ElementHelper;
 import base.BaseMethods;
 import jdk.jfr.Description;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-
-import java.time.Duration;
 
 public class HomePage extends BaseMethods {
 
@@ -52,7 +45,7 @@ public class HomePage extends BaseMethods {
         try {
             String key = "dropdown_company";
             waitElementPresent(key);
-            waitElementVisible(key);
+            waitKeyElementVisible(key);
             hoverElement(key);
             log.info("Hover performed key: dropdown_company");
 

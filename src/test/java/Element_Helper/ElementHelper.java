@@ -26,7 +26,8 @@ public class ElementHelper {
             String[] jsonFiles = {
                     "jsons/locators/homePage.json",
                     "jsons/locators/careerPage.json",
-                    "jsons/locators/qaPage.json"
+                    "jsons/locators/qaPage.json",
+                    "jsons/locators/openPositionsPage.json"
             };
 
             Type elementType = new TypeToken<List<ElementInfo>>() {}.getType();
@@ -91,12 +92,5 @@ public class ElementHelper {
         CSS, ID, XPATH, TAG, CLASS, NAME
     }
 
-    // Test için main metodu
-    public static void main(String[] args) {
-        ElementHelper helper = new ElementHelper();
-
-        By by = helper.getElementInfoToBy("loginButton");
-        System.out.println(by);  // örn: By.xpath: //button[text()='Login']
-    }
 }
 

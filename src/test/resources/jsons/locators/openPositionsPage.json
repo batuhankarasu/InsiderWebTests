@@ -1,0 +1,39 @@
+[
+  {
+    "key": "title_open_possitions_page",
+    "type": "CSS",
+    "value": "section#page-head h3"
+  },
+  {
+    "key": "conteiner_location",
+    "type": "ID",
+    "value": "select2-filter-by-location-container"
+  },
+  {
+    "key": "sellect_location",
+    "type": "ID",
+    "value": "filter-by-location"
+  },
+  {
+    "key": "sellect_department",
+    "type": "ID",
+    "value": "filter-by-department"
+  },
+  {
+    "key": "jobList_item",
+    "type": "CSS",
+    "value": "#jobs-list > div"
+  },
+  {
+    "key": "text_jobList_item_department_name",
+    "type": "CSS",
+    "value": "#jobs-list > div span"
+  },
+  {
+    "key": "text_jobList_item_location_name",
+    "type": "CSS",
+    "value": "#jobs-list > div [class = 'position-location text-large']"
+  }
+
+
+]

@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
@@ -22,7 +23,7 @@ public class BaseMethods {
     protected ElementHelper elementHelper;
 
     public WebDriver driver;
-    private static final Logger logger = LogManager.getLogger(BaseMethods.class);
+    private static final Logger log = LogManager.getLogger(BaseMethods.class);
 
 
     public BaseMethods(WebDriver driver) {
@@ -32,12 +33,12 @@ public class BaseMethods {
     }
 
     @Description("Waits until the element identified by the given key is visible on the page.")
-    public void waitElementVisible(String key) {
+    public void waitKeyElementVisible(String key) {
         try {
             By locator = elementHelper.getElementInfoToBy(key);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-            logger.info("Element visible key : " + key);
+            log.info("Element visible key : " + key);
         } catch (Exception e) {
             Assert.fail("Element Waits visible error,  key : " +key + " ERROR : " +e );
 
@@ -49,10 +50,24 @@ public class BaseMethods {
             By locator = elementHelper.getElementInfoToBy(key);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
             wait.until(ExpectedConditions.presenceOfElementLocated(locator));
-            logger.info("Element is present in the DOM. Key: " + key);
+            log.info("Element is present in the DOM. Key: " + key);
         } catch (Exception e) {
             Assert.fail("Element presence wait failed. Key: " + key + " ERROR: " + e);
         }
+    }
+
+    @Description("Waits until the specified web element becomes visible on the page within the given timeout period.")
+    public void waitWebElementVisibility(WebElement element, int timeoutSeconds) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
+            wait.until(ExpectedConditions.visibilityOf(element));
+            log.info("Element is present in the DOM. Key: " + element);
+
+        } catch (Exception e) {
+            Assert.fail("Element presence wait failed. Key: " + element + " ERROR: " + e);
+
+        }
+
     }
 
     @Description("Waits until the element identified by the given key is clickable.")
@@ -61,7 +76,7 @@ public class BaseMethods {
             By locator = elementHelper.getElementInfoToBy(key);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
             wait.until(ExpectedConditions.elementToBeClickable(locator));
-            logger.info("Element clickable key : " + key);
+            log.info("Element clickable key : " + key);
         } catch (Exception e) {
             Assert.fail("Element Waits clickable error,  key : " +key + " ERROR : " +e );
         }
@@ -74,7 +89,7 @@ public class BaseMethods {
             WebElement element = driver.findElement(locator);
             Actions action = new Actions(driver);
             action.moveToElement(element).perform();
-            logger.info("Hover over the element succes key : " + key);
+            log.info("Hover over the element succes key : " + key);
         } catch (Exception e) {
             Assert.fail("Element Hover error,  key : " +key + " ERROR : " +e );
         }
@@ -88,9 +103,6 @@ public class BaseMethods {
             WebElement webElement = driver.findElement(locator);
 
             JavascriptExecutor je = (JavascriptExecutor) driver;
-
-            // Scroll öncesi pozisyon
-            Long scrollPositionBefore = (Long) je.executeScript("return window.pageYOffset;");
 
             // Scroll işlemi
             je.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center', behavior: 'smooth'});", webElement);
@@ -111,7 +123,7 @@ public class BaseMethods {
             wait.until(ExpectedConditions.visibilityOf(webElement));
             wait.until(ExpectedConditions.elementToBeClickable(webElement));
 
-            logger.info("Scrolls to the element with animation success key : " + key);
+            log.info("Scrolls to the element with animation success key : " + key);
         } catch (Exception e) {
             Assert.fail("Error while scrolling to element: " + key + " ERROR : " + e);
         }
@@ -124,12 +136,12 @@ public class BaseMethods {
                 waitElementPresent(elementKey);
                 scrollElement(elementKey);
                 Thread.sleep(500);
-                waitElementVisible(elementKey);
+                waitKeyElementVisible(elementKey);
                 waitElementClickable(elementKey);
 
                 performClickAction(elementKey);
 
-                logger.info("Click performed successfully on attempt: " + (i + 1));
+                log.info("Click performed successfully on attempt: " + (i + 1));
                 return;
 
             } catch (Exception e) {
@@ -138,7 +150,7 @@ public class BaseMethods {
                     WebElement element = driver.findElement(elementHelper.getElementInfoToBy(elementKey));
                     JavascriptExecutor je = (JavascriptExecutor) driver;
                     je.executeScript("arguments[0].click();", element);
-                    logger.info("Click performed with JavaScript after retries");
+                    log.info("Click performed with JavaScript after retries");
                     return;
 
                 } else {
@@ -154,4 +166,63 @@ public class BaseMethods {
         WebElement element = driver.findElement(elementBy);
         element.click();
     }
+
+    @Description("Selects an option from a dropdown element by visible text. Uses element key to locate dropdown and selects option containing the specified text.")
+    public void selectDropdownOption(String key, String text) {
+        try {
+            String selectKey = key;
+            String choiceText = text;
+
+            WebElement dropdownElement = driver.findElement(elementHelper.getElementInfoToBy(selectKey));
+            Thread.sleep(7000);
+            Select select = new Select(dropdownElement);
+            select.selectByContainsVisibleText(choiceText);
+
+            log.info("Successfully selected '" + choiceText + "' from dropdown - key: " + selectKey);
+
+        } catch (Exception e) {
+            log.error("Failed to select '" + text + "' from dropdown '" + key + "': " + e.getMessage());
+            Assert.fail("Dropdown selection failed. Key: " + key + ", Text: " + text + " ERROR: " + e.getMessage());
+        }
+    }
+
+    @Description("Verifies that the element's visible text matches the expected text exactly.")
+    public void verifyKeyElementText(String key, String expectedText) {
+        try {
+            By elementBy = elementHelper.getElementInfoToBy(key);
+            WebElement element = driver.findElement(elementBy);
+            String actualText = element.getText().trim();
+
+            Assert.assertEquals(actualText, expectedText,
+                    "Text verification failed for element '" + key + "'. Expected: '" + expectedText +
+                            "' but actual: '" + actualText + "'");
+
+            log.info("Successfully verified element text - Key: " + key + ", Expected: '" + expectedText +
+                    "', Actual: '" + actualText + "'");
+
+        } catch (Exception e) {
+            log.error("Error during text verification for key '" + key + "': " + e.getMessage());
+            Assert.fail("Cannot verify element text. Key: " + key + ", Expected: " + expectedText + " ERROR: " + e.getMessage());
+        }
+    }
+
+    @Description("Verifies that the Web element's visible text matches the expected text exactly.")
+    public void verifyWebElementText(WebElement element, String expectedText) {
+        try {
+            String actualText = element.getText().trim();
+
+            Assert.assertEquals(actualText, expectedText,
+                    "Text verification failed for element. Expected: '" + expectedText +
+                            "' but actual: '" + actualText + "'");
+
+            log.info("Successfully verified element text - Expected: '" + expectedText +
+                    "', Actual: '" + actualText + "'");
+
+        } catch (Exception e) {
+            log.error("Error during text verification: " + e.getMessage());
+            Assert.fail("Cannot verify element text. Expected: " + expectedText + " ERROR: " + e.getMessage());
+        }
+    }
+
 }
+

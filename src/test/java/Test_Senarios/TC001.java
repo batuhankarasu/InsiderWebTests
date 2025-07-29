@@ -2,10 +2,10 @@ package Test_Senarios;
 
 import driver.Driver;
 import jdk.jfr.Description;
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 import pages.CareerPage;
 import pages.HomePage;
+import pages.OpenPossitionsPage;
 import pages.QaPage;
 
 public class TC001 extends Driver {
@@ -18,6 +18,7 @@ public class TC001 extends Driver {
         HomePage homePage = new HomePage(driver);
         CareerPage careerPage = new CareerPage(driver);
         QaPage qaPage = new QaPage(driver);
+        OpenPossitionsPage openPossitionsPage = new OpenPossitionsPage(driver);
 
         homePage.clickAcceptAllCookies();
         homePage.verifyYouInHomePage();
@@ -32,6 +33,13 @@ public class TC001 extends Driver {
 
         qaPage.verifyQaAssurengePage();
         qaPage.clickSeeAlQaJobsBtn();
+
+        openPossitionsPage.verifyOpenPossitionsPace();
+        openPossitionsPage.selectLocationIstanbulTurkey();
+        openPossitionsPage.sellectDepartmentQualityAssurance();
+        openPossitionsPage.checkJobListItemsDepartment();
+        openPossitionsPage.checkJobListItemsLocation();
+
 
     }
 }

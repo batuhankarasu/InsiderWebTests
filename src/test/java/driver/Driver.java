@@ -6,6 +6,10 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;
+import pages.CareerPage;
+import pages.HomePage;
+import pages.OpenPossitionsPage;
+import pages.QaPage;
 
 public class Driver {
 
@@ -24,6 +28,7 @@ public class Driver {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.get(baseUrl);
+
     }
 
     @AfterMethod
