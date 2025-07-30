@@ -4,19 +4,22 @@ import Element_Helper.ElementHelper;
 import jdk.jfr.Description;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import java.awt.Rectangle;
 
 
 public class BaseMethods {
@@ -41,10 +44,12 @@ public class BaseMethods {
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
             log.info("Element visible key : " + key);
         } catch (Exception e) {
-            Assert.fail("Element Waits visible error,  key : " +key + " ERROR : " +e );
+            takeScreenshotForPage("BaseMethods_WaitElementWithKeyVisible");
+            Assert.fail("Element Waits visible error,  key : " + key + " ERROR : " + e);
 
         }
     }
+
     @Description("Waits until the element identified by the given key is present in the DOM (regardless of visibility).")
     public void waitElementPresent(String key) {
         try {
@@ -53,6 +58,7 @@ public class BaseMethods {
             wait.until(ExpectedConditions.presenceOfElementLocated(locator));
             log.info("Element is present in the DOM. Key: " + key);
         } catch (Exception e) {
+            takeScreenshotForPage("BaseMethods_waitElementPresent");
             Assert.fail("Element presence wait failed. Key: " + key + " ERROR: " + e);
         }
     }
@@ -65,6 +71,7 @@ public class BaseMethods {
             log.info("Element is present in the DOM. Key: " + element);
 
         } catch (Exception e) {
+            takeScreenshotForPage("BaseMethods_waitWebElementVisibility");
             Assert.fail("Element presence wait failed. Key: " + element + " ERROR: " + e);
 
         }
@@ -79,7 +86,8 @@ public class BaseMethods {
             wait.until(ExpectedConditions.elementToBeClickable(locator));
             log.info("Element clickable key : " + key);
         } catch (Exception e) {
-            Assert.fail("Element Waits clickable error,  key : " +key + " ERROR : " +e );
+            takeScreenshotForPage("BaseMethods_waitElementClickable");
+            Assert.fail("Element Waits clickable error,  key : " + key + " ERROR : " + e);
         }
     }
 
@@ -92,7 +100,8 @@ public class BaseMethods {
             action.moveToElement(element).perform();
             log.info("Hover over the element succes key : " + key);
         } catch (Exception e) {
-            Assert.fail("Element Hover error,  key : " +key + " ERROR : " +e );
+            takeScreenshotForPage("BaseMethods_hoverElementWithKey");
+            Assert.fail("Element Hover error,  key : " + key + " ERROR : " + e);
         }
     }
 
@@ -103,7 +112,7 @@ public class BaseMethods {
             action.moveToElement(element).perform();
             log.info("Hover over the element success");
         } catch (Exception e) {
-            log.error("Element hover error: " + e.getMessage());
+            takeScreenshotForPage("BaseMethods_hoverWebElement");
             Assert.fail("Element Hover error. ERROR: " + e.getMessage());
         }
     }
@@ -122,12 +131,12 @@ public class BaseMethods {
             wait.until(driver -> {
                 Long currentPosition = (Long) je.executeScript("return window.pageYOffset;");
                 try {
-                    Thread.sleep(1000); // Kısa bekleme
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
                 Long newPosition = (Long) je.executeScript("return window.pageYOffset;");
-                return currentPosition.equals(newPosition); // Pozisyon sabitlendi mi?
+                return currentPosition.equals(newPosition);
             });
 
             wait.until(ExpectedConditions.visibilityOf(webElement));
@@ -135,12 +144,13 @@ public class BaseMethods {
 
             log.info("Scrolls to the element with animation success key : " + key);
         } catch (Exception e) {
+            takeScreenshotForPage("SelectDropDown");
             Assert.fail("Error while scrolling to element: " + key + " ERROR : " + e);
         }
     }
 
     @Description("Performs click action with retry mechanism and JavaScript fallback.")
-    public void performClickWithRetry(String elementKey,int maxRetries) throws InterruptedException {
+    public void performClickWithRetry(String elementKey, int maxRetries) throws InterruptedException {
         for (int i = 0; i < maxRetries; i++) {
             try {
                 waitElementPresent(elementKey);
@@ -171,7 +181,7 @@ public class BaseMethods {
     }
 
     @Description("Performs the actual click action.")
-    private void performClickAction(String elementKey){
+    private void performClickAction(String elementKey) {
         By elementBy = elementHelper.getElementInfoToBy(elementKey);
         WebElement element = driver.findElement(elementBy);
         element.click();
@@ -183,15 +193,17 @@ public class BaseMethods {
             String selectKey = key;
             String choiceText = text;
 
-            WebElement dropdownElement = driver.findElement(elementHelper.getElementInfoToBy(selectKey));
-            Thread.sleep(7000);
-            Select select = new Select(dropdownElement);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(elementHelper.getElementInfoToBy("choice_departman_qaAssurunce")));
+            System.out.println(elementHelper.getElementInfoToBy("choice_departman_qaAssurunce"));
+            WebElement selection = driver.findElement(elementHelper.getElementInfoToBy(selectKey));
+            Select select = new Select(selection);
             select.selectByContainsVisibleText(choiceText);
 
             log.info("Successfully selected '" + choiceText + "' from dropdown - key: " + selectKey);
 
         } catch (Exception e) {
-            log.error("Failed to select '" + text + "' from dropdown '" + key + "': " + e.getMessage());
+            takeScreenshotForPage("BaseMethods_selectDropdownOption");
             Assert.fail("Dropdown selection failed. Key: " + key + ", Text: " + text + " ERROR: " + e.getMessage());
         }
     }
@@ -211,7 +223,7 @@ public class BaseMethods {
                     "', Actual: '" + actualText + "'");
 
         } catch (Exception e) {
-            log.error("Error during text verification for key '" + key + "': " + e.getMessage());
+            takeScreenshotForPage("BaseMethods_verifyElementWithKeyText");
             Assert.fail("Cannot verify element text. Key: " + key + ", Expected: " + expectedText + " ERROR: " + e.getMessage());
         }
     }
@@ -229,7 +241,7 @@ public class BaseMethods {
                     "', Actual: '" + actualText + "'");
 
         } catch (Exception e) {
-            log.error("Error during text verification: " + e.getMessage());
+            takeScreenshotForPage("BaseMethods_verifyWebElementText");
             Assert.fail("Cannot verify element text. Expected: " + expectedText + " ERROR: " + e.getMessage());
         }
     }
@@ -240,8 +252,9 @@ public class BaseMethods {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element);
             log.info("Scrolled element into view.");
+
         } catch (Exception e) {
-            log.error("Failed to scroll element into view. ERROR: " + e.getMessage());
+            takeScreenshotForPage("BaseMethods_scrollWebElementIntoView");
             Assert.fail("Scroll into view failed. ERROR: " + e.getMessage());
         }
     }
@@ -259,9 +272,42 @@ public class BaseMethods {
             log.info("Switched to new browser tab.");
 
         } catch (Exception e) {
-            log.error("Failed to switch to new tab. ERROR: " + e.getMessage());
+            takeScreenshotForPage("BaseMethods_switchToNewTab");
             Assert.fail("Could not switch to new browser tab. ERROR: " + e.getMessage());
         }
     }
+
+    public void takeScreenshotForPage(String screenShotFileName) {
+        try {
+            // Kayıt klasörü yolu
+            String folderPath = "src/test/resources/ScreenShots/";
+            File folder = new File(folderPath);
+
+            // Klasör yoksa oluştur
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+
+            // Ekran boyutlarını al
+            Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+
+            // Ekran görüntüsü al
+            Robot robot = new Robot();
+            BufferedImage screenFullImage = robot.createScreenCapture(screenRect);
+
+            // Dosya adı ve tam yol
+            String fileName = screenShotFileName+".png";
+            File outputFile = new File(folderPath + fileName);
+
+            // Görüntüyü kaydet
+            ImageIO.write(screenFullImage, "png", outputFile);
+
+            log.info("Ekran görüntüsü kaydedildi: " + outputFile.getAbsolutePath());
+        } catch (AWTException | java.io.IOException ex) {
+            Assert.fail("Ekran görüntüsü alınamadı: " + ex.getMessage());
+        }
+
+    }
+
 }
 

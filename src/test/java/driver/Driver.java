@@ -1,5 +1,6 @@
 package driver;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,7 +15,7 @@ public class Driver {
 
     @BeforeMethod
     @Parameters("baseUrl")
-    public void setUp(String baseUrl) {
+    public void setUp(@Optional("https://useinsider.com/")String baseUrl) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--disable-notifications");

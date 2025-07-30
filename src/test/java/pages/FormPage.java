@@ -33,7 +33,7 @@ public class FormPage extends BaseMethods {
             log.info("Form page verified successfully with logo, apply button, and job location text.");
 
         } catch (Exception e) {
-            log.error("Failed to verify form page. ERROR: " + e.getMessage());
+            takeScreenshotForPage("FormPage_verifyFormPage");
             Assert.fail("Form page verification failed. ERROR: " + e.getMessage());
         }
     }

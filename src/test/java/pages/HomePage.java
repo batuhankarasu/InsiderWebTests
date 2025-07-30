@@ -23,7 +23,8 @@ public class HomePage extends BaseMethods {
             log.info("Click performed key: btn_accept_all_cookie");
 
         } catch (Exception e) {
-            Assert.fail("Cookies btn can't clicked ERROR: " + e);
+            takeScreenshotForPage("HomePage_clickAcceptAllCookies");
+            Assert.fail("Cookies btn can't clicked. ERROR: " + e);
         }
     }
 
@@ -32,9 +33,10 @@ public class HomePage extends BaseMethods {
         try {
             waitElementPresent("announce_bar");
             waitElementPresent("slideBar_logo");
-            log.info("You are in home page");
+            log.info("You are in home page.");
 
         } catch (Exception e) {
+            takeScreenshotForPage("HomePage_verifyYouInHomePage");
             Assert.fail("You are not in home page. ERROR : " + e);
         }
     }
@@ -46,21 +48,23 @@ public class HomePage extends BaseMethods {
             waitElementPresent(key);
             waitElementWithKeyVisible(key);
             hoverElementWithKey(key);
-            log.info("Hover performed key: dropdown_company");
+            log.info("Hover performed key: dropdown_company.");
 
         } catch (Exception e) {
+            takeScreenshotForPage("HomePage_CompanyDropDownButton");
             Assert.fail("Can't hover key : dropdown_company element. ERROR : " + e);
         }
     }
 
-    @Description("Clicks the Careers button from the dropdown on the homepage.")
+    @Description("Clicks the Careers button from the dropdown on the homepage")
     public void clickCareersBtn(){
         try {
             performClickWithRetry("btn_careers_link",5);
-            log.info("Click performed key: btn_careers_link");
+            log.info("Click performed key: btn_careers_link.");
 
         } catch (Exception e) {
-            Assert.fail("Career btn can't clicked ERROR: "+e);
+            takeScreenshotForPage("HomaPage_ClickCareersButton");
+            Assert.fail("Career btn can't clicked. ERROR: "+e);
         }
     }
 }

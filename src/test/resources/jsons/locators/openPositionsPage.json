@@ -27,7 +27,7 @@
   {
     "key": "text_jobList_item_department_name",
     "type": "CSS",
-    "value": "#jobs-list > div span"
+    "value": "#jobs-list > div > div > span"
   },
   {
     "key": "text_jobList_item_location_name",
@@ -38,7 +38,11 @@
     "key": "jobList_item_viewRole_btn",
     "type": "CSS",
     "value": "#jobs-list a"
+  },
+  {
+    "key": "choice_departman_qaAssurunce",
+    "type": "XPATH",
+    "value": "//span[text()='Quality Assurance']"
   }
-
 
 ]

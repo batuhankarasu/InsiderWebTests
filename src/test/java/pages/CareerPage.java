@@ -29,6 +29,7 @@ public class CareerPage extends BaseMethods {
             log.info("Verify element. key: btn_careers_link");
 
         } catch (Exception e) {
+            takeScreenshotForPage("CareerPage_verifyLocationsInCareers");
             Assert.fail("Can't verify Locations ERROR : " + e);
         }
     }
@@ -47,6 +48,7 @@ public class CareerPage extends BaseMethods {
             log.info("Verify element. key: conteiner_teams");
 
         } catch (Exception e) {
+            takeScreenshotForPage("CareerPage_verifyTeamsnCareers");
             Assert.fail("Can't verify Teams ERROR : " + e);
         }
     }
@@ -65,6 +67,7 @@ public class CareerPage extends BaseMethods {
             log.info("Verify element. key: conteiner_teams");
 
         } catch (Exception e) {
+            takeScreenshotForPage("CareerPage_verifyLifeAtInsider");
             Assert.fail("Can't verify Teams ERROR : " + e);
         }
     }
@@ -77,6 +80,7 @@ public class CareerPage extends BaseMethods {
             log.info("Clicked See All Teams Btn");
 
         } catch (Exception e) {
+            takeScreenshotForPage("CareerPage_clickSeeAllTeamsBtn");
             Assert.fail("See all teams btn can't clicked after all attempts ERROR: " + e);
         }
     }
@@ -88,6 +92,7 @@ public class CareerPage extends BaseMethods {
             log.info("Clicked QA Team Sellection");
 
         } catch (Exception e) {
+            takeScreenshotForPage("CareerPage_clickQATeamSellection");
             Assert.fail("Quality Assurance team button can't be clicked after all attempts ERROR: " + e);
         }
     }

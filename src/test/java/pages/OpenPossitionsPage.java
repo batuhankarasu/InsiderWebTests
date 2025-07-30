@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OpenPossitionsPage extends BaseMethods {
@@ -36,6 +37,7 @@ public class OpenPossitionsPage extends BaseMethods {
             log.info("You are in open possitions page");
 
         } catch (Exception e) {
+            takeScreenshotForPage("OpenPossitionsPage_verifyOpenPossitionsPace");
             Assert.fail("You are not in open possitions page. ERROR : " + e);
         }
     }
@@ -50,21 +52,8 @@ public class OpenPossitionsPage extends BaseMethods {
 
             log.info("Successfully selected location: " + locationText);
         } catch (Exception e) {
+            takeScreenshotForPage("OpenPossitionsPage_selectLocationIstanbulTurkey");
             Assert.fail("Cannot select Istanbul location. ERROR: " + e.getMessage());
-        }
-    }
-
-    @Description("Selects Quality Assurance from department dropdown.")
-    public void sellectDepartmentQualityAssurance(){
-        try {
-            String sellectLocation = "sellect_department";
-            String locationText ="Quality Assurance";
-
-            selectDropdownOption(sellectLocation,locationText);
-
-            log.info("Successfully selected department: " + locationText);
-        } catch (Exception e) {
-            Assert.fail("Cannot select QA department. ERROR: " + e.getMessage());
         }
     }
 
@@ -76,11 +65,17 @@ public class OpenPossitionsPage extends BaseMethods {
             String joblistItemKey = "jobList_item";
 
             log.info("Starting department verification for all job list items...");
-
+            Thread.sleep(1000);
             By jobElementsBy = elementHelper.getElementInfoToBy(joblistItemKey);
-            List<WebElement> jobElements = driver.findElements(jobElementsBy);
+            List<WebElement> jobElements = new ArrayList<>();
+            for (WebElement element : driver.findElements(jobElementsBy)){
+                if (element.isDisplayed()){
+                    jobElements.add(element);
+                }
+            }
 
             if (jobElements.isEmpty()) {
+                takeScreenshotForPage("OpenPossitionsPage_checkJobListItemsDepartment");
                 Assert.fail("No job items found for department verification. Key: " + joblistItemKey);
             }
 
@@ -99,7 +94,7 @@ public class OpenPossitionsPage extends BaseMethods {
                     log.info("✓ Job item " + (i + 1) + " department verified: '" + expectedText + "'");
 
                 } catch (Exception e) {
-                    log.error("Error verifying department for job item " + (i + 1) + ": " + e.getMessage());
+                    takeScreenshotForPage("OpenPossitionsPage_checkJobListItemsDepartment");
                     Assert.fail("Department verification failed for job item " + (i + 1) + ". ERROR: " + e.getMessage());
                 }
 
@@ -108,9 +103,9 @@ public class OpenPossitionsPage extends BaseMethods {
             log.info("All " + jobElements.size() + " job items department verification completed successfully!");
 
         } catch (Exception e) {
-            log.error("Job list department verification failed: " + e.getMessage());
-            Assert.fail("Cannot verify job list departments. ERROR: " + e.getMessage());        }
-
+            takeScreenshotForPage("OpenPossitionsPage_checkJobListItemsDepartment");
+            Assert.fail("Cannot verify job list departments. ERROR: " + e.getMessage());
+        }
     }
 
     @Description("Verifies that all job list items have the expected location (Istanbul, Turkiye).")
@@ -126,6 +121,7 @@ public class OpenPossitionsPage extends BaseMethods {
             List<WebElement>  jobElements = driver.findElements(elementBy);
 
             if (jobElements.isEmpty()) {
+                takeScreenshotForPage("OpenPossitionsPage_checkJobListItemsLocation");
                 Assert.fail("No job items found for location verification. Key: " + joblistItemKey);
             }
 
@@ -144,7 +140,7 @@ public class OpenPossitionsPage extends BaseMethods {
                     log.info("✓ Job item " + (i + 1) + " location verified: '" + expectedText + "'");
 
                 } catch (Exception e) {
-                    log.error("Error verifying location for job item " + (i + 1) + ": " + e.getMessage());
+                    takeScreenshotForPage("OpenPossitionsPage_checkJobListItemsLocation");
                     Assert.fail("Location verification failed for job item " + (i + 1) + ". ERROR: " + e.getMessage());
                 }
             }
@@ -152,7 +148,7 @@ public class OpenPossitionsPage extends BaseMethods {
             log.info("All " + jobElements.size() + " job items location verification completed successfully!");
 
         } catch (Exception e) {
-            log.error("Job list location verification failed: " + e.getMessage());
+            takeScreenshotForPage("OpenPossitionsPage_checkJobListItemsLocation");
             Assert.fail("Cannot verify job list locations. ERROR: " + e.getMessage());
 
         }
@@ -176,10 +172,12 @@ public class OpenPossitionsPage extends BaseMethods {
             List<WebElement> viewRoleBtns = driver.findElements(viewRoleBtnBy);
 
             if (jobElements.isEmpty() || jobIndex >= jobElements.size()) {
+                takeScreenshotForPage("OpenPossitionsPage_clickFirstJobViewRoleBtn");
                 Assert.fail("No job element found at index " + jobIndex);
             }
 
             if (viewRoleBtns.isEmpty() || jobIndex >= viewRoleBtns.size()) {
+                takeScreenshotForPage("OpenPossitionsPage_clickFirstJobViewRoleBtn");
                 Assert.fail("No 'View Role' button found at index " + jobIndex);
             }
 
@@ -198,7 +196,7 @@ public class OpenPossitionsPage extends BaseMethods {
             log.info("Successfully clicked 'View Role' button at index: " + jobIndex);
 
         } catch (Exception e) {
-            log.error("Failed to click 'View Role' button at index " + jobIndex + ": " + e.getMessage());
+            takeScreenshotForPage("OpenPossitionsPage_clickFirstJobViewRoleBtn");
             Assert.fail("Cannot click 'View Role' button at index " + jobIndex + ". ERROR: " + e.getMessage());
         }
     }

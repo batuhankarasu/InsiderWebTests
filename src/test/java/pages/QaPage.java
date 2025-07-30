@@ -22,6 +22,7 @@ public class QaPage extends BaseMethods {
             performClickWithRetry("btn_see_all_qa_jobs", 5);
             log.info("Successfully clicked the 'Quality Assurance' team button (key: btn_see_all_qa_jobs).");
         } catch (Exception e) {
+            takeScreenshotForPage("QaPagePage_clickSeeAlQaJobsBtn");
             Assert.fail("Failed to click the 'Quality Assurance' team button (key: btn_see_all_qa_jobs) after all attempts. ERROR: " + e.getMessage());
         }
     }
@@ -42,6 +43,7 @@ public class QaPage extends BaseMethods {
             log.info("Verify element. key: btn_careers_link");
 
         } catch (Exception e) {
+            takeScreenshotForPage("QaPagePage_verifyQaAssurengePage");
             Assert.fail("Can't verify LOcations ERROR : " + e);
         }
     }
