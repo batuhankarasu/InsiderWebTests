@@ -23,8 +23,8 @@ public class CareerPage extends BaseMethods {
             String expectedText = "Our Locations";
 
             waitElementPresent(key);
-            waitKeyElementVisible(key);
-            verifyKeyElementText(titleKey,expectedText);
+            waitElementWithKeyVisible(key);
+            verifyElementWithKeyText(titleKey,expectedText);
 
             log.info("Verify element. key: btn_careers_link");
 
@@ -41,8 +41,8 @@ public class CareerPage extends BaseMethods {
             String expectedText = "Find your calling";
 
             waitElementPresent(key);
-            waitKeyElementVisible(key);
-            verifyKeyElementText(titleKey,expectedText);
+            waitElementWithKeyVisible(key);
+            verifyElementWithKeyText(titleKey,expectedText);
 
             log.info("Verify element. key: conteiner_teams");
 
@@ -59,8 +59,8 @@ public class CareerPage extends BaseMethods {
             String expectedText = "Life at Insider";
 
             waitElementPresent(key);
-            waitKeyElementVisible(key);
-            verifyKeyElementText(titleKey,expectedText);
+            waitElementWithKeyVisible(key);
+            verifyElementWithKeyText(titleKey,expectedText);
 
             log.info("Verify element. key: conteiner_teams");
 

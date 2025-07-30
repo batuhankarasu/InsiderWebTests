@@ -3,12 +3,16 @@ package pages;
 import base.BaseMethods;
 import jdk.jfr.Description;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
+import java.time.Duration;
 import java.util.List;
 
 public class OpenPossitionsPage extends BaseMethods {
@@ -27,8 +31,8 @@ public class OpenPossitionsPage extends BaseMethods {
             String expectedText = "All open positions";
 
             waitElementPresent(key);
-            waitKeyElementVisible(key);
-            verifyKeyElementText(key,expectedText);
+            waitElementWithKeyVisible(key);
+            verifyElementWithKeyText(key,expectedText);
 
             log.info("You are in open possitions page");
 
@@ -155,6 +159,53 @@ public class OpenPossitionsPage extends BaseMethods {
         }
     }
 
+
+    @Description("Hovers over the first job item and clicks its 'View Role' button.")
+    public void clickFirstJobViewRoleBtn() {
+        int jobIndex = 0;
+
+        try {
+            String jobListItemKey = "jobList_item";
+            String viewRoleBtnKey = "jobList_item_viewRole_btn";
+
+            log.info("Attempting to view job role at index: " + jobIndex);
+
+            By jobElementBy = elementHelper.getElementInfoToBy(jobListItemKey);
+            By viewRoleBtnBy = elementHelper.getElementInfoToBy(viewRoleBtnKey);
+
+            List<WebElement> jobElements = driver.findElements(jobElementBy);
+            List<WebElement> viewRoleBtns = driver.findElements(viewRoleBtnBy);
+
+            if (jobElements.isEmpty() || jobIndex >= jobElements.size()) {
+                Assert.fail("No job element found at index " + jobIndex);
+            }
+
+            if (viewRoleBtns.isEmpty() || jobIndex >= viewRoleBtns.size()) {
+                Assert.fail("No 'View Role' button found at index " + jobIndex);
+            }
+
+            WebElement jobElement = jobElements.get(jobIndex);
+            WebElement viewRoleBtn = viewRoleBtns.get(jobIndex);
+
+            // Scroll and hover
+            scrollWebElementIntoView(jobElement);
+            log.info("Hovering over job element at index: " + jobIndex);
+            hoverWebElement(jobElement);
+
+            // Explicit wait: View Role button becomes clickable
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.elementToBeClickable(viewRoleBtn));
+
+            // Click the button
+            viewRoleBtn.click();
+
+            log.info("Successfully clicked 'View Role' button at index: " + jobIndex);
+
+        } catch (Exception e) {
+            log.error("Failed to click 'View Role' button at index " + jobIndex + ": " + e.getMessage());
+            Assert.fail("Cannot click 'View Role' button at index " + jobIndex + ". ERROR: " + e.getMessage());
+        }
+    }
 
 
 }

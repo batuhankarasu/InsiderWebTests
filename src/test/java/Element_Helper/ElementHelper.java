@@ -27,7 +27,8 @@ public class ElementHelper {
                     "jsons/locators/homePage.json",
                     "jsons/locators/careerPage.json",
                     "jsons/locators/qaPage.json",
-                    "jsons/locators/openPositionsPage.json"
+                    "jsons/locators/openPositionsPage.json",
+                    "jsons/locators/formPage.json"
             };
 
             Type elementType = new TypeToken<List<ElementInfo>>() {}.getType();

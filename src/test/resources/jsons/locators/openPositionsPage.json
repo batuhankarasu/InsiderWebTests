@@ -33,6 +33,11 @@
     "key": "text_jobList_item_location_name",
     "type": "CSS",
     "value": "#jobs-list > div [class = 'position-location text-large']"
+  },
+  {
+    "key": "jobList_item_viewRole_btn",
+    "type": "CSS",
+    "value": "#jobs-list a"
   }
 
 

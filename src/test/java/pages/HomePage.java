@@ -45,8 +45,8 @@ public class HomePage extends BaseMethods {
         try {
             String key = "dropdown_company";
             waitElementPresent(key);
-            waitKeyElementVisible(key);
-            hoverElement(key);
+            waitElementWithKeyVisible(key);
+            hoverElementWithKey(key);
             log.info("Hover performed key: dropdown_company");
 
         } catch (Exception e) {

@@ -16,6 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.time.Duration;
+import java.util.ArrayList;
 
 
 public class BaseMethods {
@@ -33,7 +34,7 @@ public class BaseMethods {
     }
 
     @Description("Waits until the element identified by the given key is visible on the page.")
-    public void waitKeyElementVisible(String key) {
+    public void waitElementWithKeyVisible(String key) {
         try {
             By locator = elementHelper.getElementInfoToBy(key);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -83,7 +84,7 @@ public class BaseMethods {
     }
 
     @Description("Hover over the element specified by the locator key.")
-    public void hoverElement(String key) {
+    public void hoverElementWithKey(String key) {
         try {
             By locator = elementHelper.getElementInfoToBy(key);
             WebElement element = driver.findElement(locator);
@@ -92,6 +93,18 @@ public class BaseMethods {
             log.info("Hover over the element succes key : " + key);
         } catch (Exception e) {
             Assert.fail("Element Hover error,  key : " +key + " ERROR : " +e );
+        }
+    }
+
+    @Description("Hover over the specified web element.")
+    public void hoverWebElement(WebElement element) {
+        try {
+            Actions action = new Actions(driver);
+            action.moveToElement(element).perform();
+            log.info("Hover over the element success");
+        } catch (Exception e) {
+            log.error("Element hover error: " + e.getMessage());
+            Assert.fail("Element Hover error. ERROR: " + e.getMessage());
         }
     }
 
@@ -136,7 +149,7 @@ public class BaseMethods {
                 waitElementPresent(elementKey);
                 scrollElement(elementKey);
                 Thread.sleep(500);
-                waitKeyElementVisible(elementKey);
+                waitElementWithKeyVisible(elementKey);
                 waitElementClickable(elementKey);
 
                 performClickAction(elementKey);
@@ -174,7 +187,7 @@ public class BaseMethods {
             String choiceText = text;
 
             WebElement dropdownElement = driver.findElement(elementHelper.getElementInfoToBy(selectKey));
-            Thread.sleep(7000);
+            Thread.sleep(15000);
             Select select = new Select(dropdownElement);
             select.selectByContainsVisibleText(choiceText);
 
@@ -187,7 +200,7 @@ public class BaseMethods {
     }
 
     @Description("Verifies that the element's visible text matches the expected text exactly.")
-    public void verifyKeyElementText(String key, String expectedText) {
+    public void verifyElementWithKeyText(String key, String expectedText) {
         try {
             By elementBy = elementHelper.getElementInfoToBy(key);
             WebElement element = driver.findElement(elementBy);
@@ -223,6 +236,41 @@ public class BaseMethods {
             Assert.fail("Cannot verify element text. Expected: " + expectedText + " ERROR: " + e.getMessage());
         }
     }
+
+    @Description("Scrolls the given WebElement into the center of the viewport using JavaScript.")
+    public void scrollWebElementIntoView(WebElement element) {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element);
+            log.info("Scrolled element into view.");
+        } catch (Exception e) {
+            log.error("Failed to scroll element into view. ERROR: " + e.getMessage());
+            Assert.fail("Scroll into view failed. ERROR: " + e.getMessage());
+        }
+    }
+
+    @Description("Switches the driver to the newly opened browser tab (index 1). Fails if no second tab exists.")
+    public void switchToNewTab() {
+        try {
+            // Tüm açık pencere tanıtıcılarını al
+            ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+
+            // Yeni sekmenin açık olduğundan emin ol
+            if (tabs.size() < 2) {
+                Assert.fail("No new browser tab found to switch.");
+            }
+
+            // Yeni sekmeye geç
+            driver.switchTo().window(tabs.get(1));
+            log.info("Switched to new browser tab.");
+
+        } catch (Exception e) {
+            log.error("Failed to switch to new tab. ERROR: " + e.getMessage());
+            Assert.fail("Could not switch to new browser tab. ERROR: " + e.getMessage());
+        }
+    }
+
+
 
 }
 

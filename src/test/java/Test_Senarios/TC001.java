@@ -3,10 +3,7 @@ package Test_Senarios;
 import driver.Driver;
 import jdk.jfr.Description;
 import org.testng.annotations.Test;
-import pages.CareerPage;
-import pages.HomePage;
-import pages.OpenPossitionsPage;
-import pages.QaPage;
+import pages.*;
 
 public class TC001 extends Driver {
 
@@ -19,6 +16,7 @@ public class TC001 extends Driver {
         CareerPage careerPage = new CareerPage(driver);
         QaPage qaPage = new QaPage(driver);
         OpenPossitionsPage openPossitionsPage = new OpenPossitionsPage(driver);
+        FormPage formPage = new FormPage(driver);
 
         homePage.clickAcceptAllCookies();
         homePage.verifyYouInHomePage();
@@ -39,6 +37,10 @@ public class TC001 extends Driver {
         openPossitionsPage.sellectDepartmentQualityAssurance();
         openPossitionsPage.checkJobListItemsDepartment();
         openPossitionsPage.checkJobListItemsLocation();
+        openPossitionsPage.clickFirstJobViewRoleBtn();
+
+        formPage.verifyFormPage();
+
 
 
     }

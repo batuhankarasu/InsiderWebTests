@@ -1,0 +1,17 @@
+[
+  {
+    "key": "btn_apply_for_this_job",
+    "type": "CSS",
+    "value": ".postings-btn.template-btn-submit.shamrock"
+  },
+  {
+    "key": "img_label_logo",
+    "type": "CSS",
+    "value": "img[alt ='Lever logo']"
+  },
+  {
+    "key": "text_job_location",
+    "type": "CSS",
+    "value": ".sort-by-time.posting-category.medium-category-label.width-full.capitalize-labels.location"
+  }
+]
