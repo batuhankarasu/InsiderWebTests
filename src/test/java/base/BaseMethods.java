@@ -117,10 +117,8 @@ public class BaseMethods {
 
             JavascriptExecutor je = (JavascriptExecutor) driver;
 
-            // Scroll işlemi
             je.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center', behavior: 'smooth'});", webElement);
 
-            // Scroll animasyonunun bitmesini bekle
             wait.until(driver -> {
                 Long currentPosition = (Long) je.executeScript("return window.pageYOffset;");
                 try {
@@ -132,7 +130,6 @@ public class BaseMethods {
                 return currentPosition.equals(newPosition); // Pozisyon sabitlendi mi?
             });
 
-            // Element kontrolları
             wait.until(ExpectedConditions.visibilityOf(webElement));
             wait.until(ExpectedConditions.elementToBeClickable(webElement));
 
@@ -187,7 +184,7 @@ public class BaseMethods {
             String choiceText = text;
 
             WebElement dropdownElement = driver.findElement(elementHelper.getElementInfoToBy(selectKey));
-            Thread.sleep(15000);
+            Thread.sleep(7000);
             Select select = new Select(dropdownElement);
             select.selectByContainsVisibleText(choiceText);
 
@@ -252,15 +249,12 @@ public class BaseMethods {
     @Description("Switches the driver to the newly opened browser tab (index 1). Fails if no second tab exists.")
     public void switchToNewTab() {
         try {
-            // Tüm açık pencere tanıtıcılarını al
             ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
 
-            // Yeni sekmenin açık olduğundan emin ol
             if (tabs.size() < 2) {
                 Assert.fail("No new browser tab found to switch.");
             }
 
-            // Yeni sekmeye geç
             driver.switchTo().window(tabs.get(1));
             log.info("Switched to new browser tab.");
 
@@ -269,8 +263,5 @@ public class BaseMethods {
             Assert.fail("Could not switch to new browser tab. ERROR: " + e.getMessage());
         }
     }
-
-
-
 }
 

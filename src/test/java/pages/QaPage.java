@@ -45,6 +45,4 @@ public class QaPage extends BaseMethods {
             Assert.fail("Can't verify LOcations ERROR : " + e);
         }
     }
-
-
 }

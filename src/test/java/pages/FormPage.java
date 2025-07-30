@@ -24,9 +24,7 @@ public class FormPage extends BaseMethods {
             String jobLocationKey = "text_job_location";
             String expectedLocationText = "Istanbul, Turkiye";
 
-
             switchToNewTab();
-
 
             waitElementWithKeyVisible(labelLogoImgKey);
             waitElementWithKeyVisible(applyButtonKey);
@@ -39,7 +37,4 @@ public class FormPage extends BaseMethods {
             Assert.fail("Form page verification failed. ERROR: " + e.getMessage());
         }
     }
-
-
-
 }

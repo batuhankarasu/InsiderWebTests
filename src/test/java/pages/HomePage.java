@@ -27,7 +27,6 @@ public class HomePage extends BaseMethods {
         }
     }
 
-
     @Description("Verifies that the user is on the homepage by checking specific elements.")
     public void verifyYouInHomePage() {
         try {
@@ -63,10 +62,5 @@ public class HomePage extends BaseMethods {
         } catch (Exception e) {
             Assert.fail("Career btn can't clicked ERROR: "+e);
         }
-
     }
-
-
-
-
 }

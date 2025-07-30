@@ -3,7 +3,6 @@ package pages;
 import base.BaseMethods;
 import jdk.jfr.Description;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -187,16 +186,13 @@ public class OpenPossitionsPage extends BaseMethods {
             WebElement jobElement = jobElements.get(jobIndex);
             WebElement viewRoleBtn = viewRoleBtns.get(jobIndex);
 
-            // Scroll and hover
             scrollWebElementIntoView(jobElement);
             log.info("Hovering over job element at index: " + jobIndex);
             hoverWebElement(jobElement);
 
-            // Explicit wait: View Role button becomes clickable
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.elementToBeClickable(viewRoleBtn));
 
-            // Click the button
             viewRoleBtn.click();
 
             log.info("Successfully clicked 'View Role' button at index: " + jobIndex);
@@ -206,6 +202,4 @@ public class OpenPossitionsPage extends BaseMethods {
             Assert.fail("Cannot click 'View Role' button at index " + jobIndex + ". ERROR: " + e.getMessage());
         }
     }
-
-
 }

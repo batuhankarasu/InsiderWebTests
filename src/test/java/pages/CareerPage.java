@@ -91,5 +91,4 @@ public class CareerPage extends BaseMethods {
             Assert.fail("Quality Assurance team button can't be clicked after all attempts ERROR: " + e);
         }
     }
-
 }

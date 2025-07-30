@@ -22,7 +22,7 @@ public class ElementHelper {
 
     private void initElementInfo() {
         try {
-            // Örnek: resources/locators klasöründeki JSON dosyalarını tek tek belirt
+
             String[] jsonFiles = {
                     "jsons/locators/homePage.json",
                     "jsons/locators/careerPage.json",
@@ -77,7 +77,7 @@ public class ElementHelper {
         }
     }
 
-    // Örnek ElementInfo sınıfı
+
     public static class ElementInfo {
         private String key;
         private ByType type;
@@ -88,7 +88,7 @@ public class ElementHelper {
         public String getValue() { return value; }
     }
 
-    // Örnek ByType enum'u
+
     public enum ByType {
         CSS, ID, XPATH, TAG, CLASS, NAME
     }
